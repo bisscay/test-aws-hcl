@@ -25,8 +25,10 @@ resource "aws_internet_gateway" "this" {
   tags   = local.tags
 }
 
-resource "aws_route_table" "this" {
-  vpc_id = aws_vpc.this.id
+# Every VPC has a default route table that can be managed but not destroyed
+resource "aws_default_route_table" "name" {
+  default_route_table_id = aws_vpc.this.default_route_table_id
+  tags                   = local.tags
 
   route {
     cidr_block = "0.0.0.0/0"
